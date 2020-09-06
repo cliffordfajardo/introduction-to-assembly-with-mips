@@ -1,0 +1,8 @@
+.data
+	myCharacter: .byte 'm'
+
+.text
+	# register $v0 primarily used for holding a service number for syscalls.
+	li $v0, 4
+	la $a0, myCharacter
+	syscall 

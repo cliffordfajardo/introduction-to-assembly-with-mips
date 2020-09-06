@@ -1,0 +1,60 @@
+# This SO link may be helpful: https://stackoverflow.com/questions/15100476/mips-relevant-use-for-a-stack-pointer-sp-and-the-stack
+
+.data
+  newLine: .asciiz "\n"
+
+.text
+  main:
+    addi $s0, $zero, 10 	 # Put 10 in s0 ......recall $s registers for saving values across calls (by convention you should put them here).
+    
+    
+    jal increaseMyRegister # prints 40
+    
+    
+    
+    # Print new line
+    li $v0, 4
+    la $a0, newLine
+    syscall
+
+
+    # print value in s0 (which at this point is 10 again because we saved it on the stack & removed it...see the code for "increaseMyRegister") 
+		jal printTheValue
+
+    
+    # Signal end of program.
+    li $v0, 10
+    syscall
+
+
+
+
+
+    # We'll be using $sp (stack pointer) & allocating space in the stack
+    # We'll be storing the old value of s0 in our stack
+    increaseMyRegister:
+      addi $sp, $sp, -4     # allocate 4 bytes on the stack. We use -4 b/c stack goes down. When we're subtracting like so, we're actually allocating space in the stack.
+			sw   $s0,  0($sp)     # save the $s0 (10) to the first location in the stack pointer. If we wanted to repeat this statement & add another value we would do "4($sp)" we use multiples of 4 to reach the next index since every element takes 4bytes.
+			
+			addi $s0, $s0, 30  # Update: s0 = s0(10) + 30 = 40
+			
+			
+			# nested procedure!
+			jal printTheValue # print new value of s0(40).
+			
+			# load word from RAM...
+			lw $s0, 0($sp)     # s0 = 10 (we grab the first value from stack...10 was previously saved on the stack in the beginning of this procedure.)
+				
+			addi $sp, $sp, 4  # restore $sp, freeing the allocated space. 
+			
+			# go  back to the caller of the function
+			jr $ra
+
+		
+		
+		printTheValue
+			li $v0, 1
+			move $a0, $s0
+			syscall
+			jr $ra
+			

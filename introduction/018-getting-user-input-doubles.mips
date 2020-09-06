@@ -1,0 +1,19 @@
+.data
+  prompt: .asciiz "Enter the value of e (eulers #): "
+.text
+  # Display message to the user
+  li $v0, 4
+  la $a0 prompt
+  syscall
+  
+  
+  # Get double from user
+  li $v0, 7 #user input are stored in $f0 & $f1 (doubles are 64bit so they take up 2 registers (each register is 32bit)
+  syscall
+
+
+
+  # Display double
+  li $v0, 3
+  add.d $f12, $f0, $f10 # $f12 is argument register for floats we move our data to there ... $f0 holds the double .....   ($f10 is 0.0 it's an empty register..many registers are like this)
+  syscall

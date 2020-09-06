@@ -1,0 +1,42 @@
+# C Program we're trying to emulate in MIPS
+# int i = 0
+# while (i < 10) { i++ }
+
+.data
+	space: .asciiz ", "
+	endOfLoopMessage: "The loop just ended."
+	
+.text
+	main:
+		# i = 0
+		addi $t0, $zero, 0
+		
+		whileLoop:
+			bgt $t0, 10, whileLoopExit
+			jal printNumber
+			
+			addi $t0, $t0, 1 # i = i + 1
+			
+			j whileLoop
+		
+		whileLoopExit:
+			li $v0, 4
+			la $a0, endOfLoopMessage
+			syscall
+			
+	# End of program
+	li $v0, 10
+	syscall
+		
+
+
+	printNumber:
+		li $v0, 1
+		add $a0, $t0, $zero
+		syscall
+			
+		# also print a new line
+		li $v0, 4
+		la $a0, space
+		syscall
+		jr $ra

@@ -1,0 +1,29 @@
+.data
+
+.text
+  main:
+    addi $a1, $zero, 50   # first argument for function
+    addi $a2, $zero, 100  # second argument for function
+    
+    jal addNumbers  # saves next instruction in $ra register. Inside our addNumbers method, we use 'jr' to come back here & resume executing.
+  
+    # print 100
+    li $v0, 1
+    addi $a0, $v1, 0
+    syscall
+
+
+  # Tell system program is done.
+    li $v0, 10
+    syscall
+
+
+  addNumbers:
+    # A convention for MIPs programmers is to store return values in $v1 
+    add $v1, $a1, $a2   #v1 = 50+100
+    jr $ra
+
+
+# NOTE on convention:
+# save function arguments in $a registers
+# save function return values in $v registers

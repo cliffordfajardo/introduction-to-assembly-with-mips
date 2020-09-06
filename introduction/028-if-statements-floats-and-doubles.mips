@@ -1,0 +1,31 @@
+.data
+	# We'll later move these values from RAM to our registers. This is the only way we can perform operations on them.
+	wasTrueMessage:  .asciiz "Condition was true."
+	wasFalseMessage: .asciiz "Condition was false."
+	myFloat1: 	.float 10.4
+	myFloat2: 	.float 4.6
+
+
+
+.text
+  main:
+  	# Even though we're spacing our register insertions by 2, we don't need to. BUT if we decide to use doubles in our program that's when we would want the extra register space since doubles are 64bit values, which use up 2 registers.
+		lwc1 $f0, myFloat1
+		lwc1 $f2, myFloat2
+		
+		# compare floats
+		c.eq.s $f0, $f2 # this is false so 0 gets added
+		bc1t  exit		 # this runs because condition above is false
+		
+		
+	exit:
+		li $v0, 4
+		la $a0, wasFalseMessage
+		syscall
+		# exit program
+ 		li $v0, 10
+ 		syscall
+		
+
+
+

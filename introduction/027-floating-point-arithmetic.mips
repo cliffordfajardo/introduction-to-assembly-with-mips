@@ -1,0 +1,19 @@
+.data
+  myFloatValue1: .float 3.14
+  myFloatValue2: .float 2.71
+
+.text
+  # Place floats into registers
+  lwc1 $f2, myFloatValue1
+  lwc1 $f4, myFloatValue2
+
+  # Add floats
+  add.s $f12, $f2, $f4 		# print float  .... recall that $f12 is an argument register. This will be used for printing the float.
+
+	
+	li $v0, 2,
+	syscall
+	
+	
+# If you were dealing with doubles change float to 'double' and use "ldc1" and "add.d"
+# also since doubles take more space (64bits each) they take 2 registers. In MIPS, each register is 32-bits

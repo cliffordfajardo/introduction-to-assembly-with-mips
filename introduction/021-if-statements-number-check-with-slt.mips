@@ -1,0 +1,19 @@
+.data
+  message: .ascii "The number is less than the other"
+
+.text
+	main:
+  	addi $t0, $zero, 1
+  	addi $t1, $zero, 200
+  
+  	slt $s0, $t0, $t1 # if t0 < t1, set s0 to 1(true), else 0(false)
+  	beq $s0, $zero, printMessage
+  
+  	# terminate program
+  	$li $v0 10,
+  	syscall
+  
+ 	printMessage:
+ 		li $v0, 4
+		la $a0, message
+		syscall

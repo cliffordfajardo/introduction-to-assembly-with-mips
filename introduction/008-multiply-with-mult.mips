@@ -1,0 +1,17 @@
+.data
+
+.text
+ # Using mult is more efficient than the last example using 'mul'
+ 
+ 	addi $t0, $zero 1000
+	addi $t1, $zero 2
+ 	
+ 			# Highest we can multiply is two 32-bit numbers
+ 		      	# using mult we can do multiplication on biger numbers.
+         	      	# the product AKA result of multiplication will be stored in the 'hi' & 'lo' registers. Yes 2 registers, will be used to store the data for this big result.
+ 	mult $t0, $t1 	# the result of mult is stored in 'hi' & 'lo' registers. We use 'mflo' or 'mfhi' to get the values from hi or low & then we can move it.
+ 	
+ 	
+ 		 	# the result of our multiplcation went to 'lo' because the number wasn't that big. If we had multiplied something like 100000 * 10000 we'd see a value in low & hi.
+ 	mflo $s0 	# 2000
+ 

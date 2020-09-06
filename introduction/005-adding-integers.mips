@@ -1,0 +1,14 @@
+.data
+	myFirstInteger:	 .word 1
+	mySecondInteger: .word 2
+# Reminder that data is in RAM....we need to load it into the proccessor..we do that in '.text section'
+
+.text
+	# moving data from RAM to registers...
+	lw $t0, myFirstInteger
+	lw $t1, mySecondInteger
+	add $t2, $t0, $t1 	# t2 = $t0 + $t1
+	
+                      # register $v0 primarily used for holding a service number for syscalls.
+	li $v0, 1           # syscall for printing integer
+	add $a0, $zero, $t2	# $a0 = 0 + $t2 (which is 3) ... $zero is useful & can help us move data like this.

@@ -1,0 +1,70 @@
+# This SO link may be helpful: https://stackoverflow.com/questions/15100476/mips-relevant-use-for-a-stack-pointer-sp-and-the-stack
+
+.data
+  newLine: .asciiz "\n"
+
+.text
+  main:
+    addi $s0, $zero, 10 	 # Put 10 in s0 ......recall $s registers for saving values across calls (by convention you should put them here).
+    
+    
+    jal increaseMyRegister # prints 40 ... $ra is set to some instruction address in 'main'
+    
+    
+    
+    # Print new line
+    li $v0, 4
+    la $a0, newLine
+    syscall
+    
+		jal printMyValue
+
+
+    # print value in s0 (which at this point is 10 again because we saved it on the stack & removed it...see the code for "increaseMyRegister") 
+
+    
+    # Signal end of program.
+    li $v0, 10
+    syscall
+
+
+
+
+
+    # We'll be using $sp (stack pointer) & allocating space in the stack
+    # We'll be storing the old value of s0 in our stack.
+    # When we're subtracting like so, we're actually allocating space in the stack.
+    increaseMyRegister:
+      addi $sp, $sp, -8    # Allocate 8 bytes on the stack. 
+                           
+			sw $s0, 0($sp)       # 1st 4 bytes we'll use to save value 10
+      sw $ra, 4($sp)       # 2nd 4 bytes we'll use to save some intruction address in "main")
+			
+			addi $s0, $s0, 30    # Update: s0 = s0(10) + 30 = 40
+			
+			
+			# Nested procedure: when we call this we want to go back to the caller "increaseMyRegister" not to "main"
+      jal printMyValue # print new value of s0(40). $ra is set to next instruction address inside "increaseMyRegister"
+			
+			
+			# load word from RAM...
+			lw $s0, 0($sp)    # restore address from stack section 0=10 (grab the first value from stack...10 was previously saved on the stack in the beginning of this procedure.)
+      lw $ra, 4($sp)    # restore address from stack section 4=address back to "main".  
+				
+			addi $sp, $sp, 4  # restore $sp, freeing the allocated space. 
+			
+			# go  back to the caller of the function
+			jr $ra
+
+
+    printMyValue:
+      li $v0, 1
+      move $a0, $s0 #
+      syscall
+      jr $ra
+
+
+# NOTES on MIPS conventions
+#
+# If you're using t-register inside a procedure/function we don't need to modify the stack we can modify the value in the register
+# If we're using an s-register (by programmer convention) the program shouldn't have permission to modify the value of the s-register. 

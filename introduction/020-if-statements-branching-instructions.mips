@@ -1,0 +1,29 @@
+.data
+  message1: .asciiz "The numbers are equal."
+  message2: .asciiz "Numbers are not equal."
+
+
+.text
+  main:
+    addi $t0, $zero, 5
+    addi $t1, $zero, 20
+
+    # compare
+    beq $t0, $t1, numbersEqualMessage 		# if t0 == t1 then branch to "numbersEqualMessage"
+		bne $t0, $t1, numbersNotEqualMessage	# if t0 != t1 then branch to "numbersNotEqualMessage"
+ 
+    # end program signal
+    li $v0, 10
+    syscall
+    
+            
+	# Print the numers are
+	numbersEqualMessage:
+		li $v0, 4
+		la $a0, message1
+		syscall
+		
+	numbersNotEqualMessage:
+		li $v0, 4
+		la $a0, message2
+		syscall

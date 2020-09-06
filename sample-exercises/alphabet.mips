@@ -1,0 +1,22 @@
+# Write: ABCDEFGHIJKLMNOPQRSTUVWXY and then print it out.
+# use syscall 'sbrk` (allocate heap memory)
+
+.data 
+  startCode: 65
+  end:90
+
+
+.text
+start_loop
+ li $v0, 9
+ 
+bne 
+
+  # allocating heap space (A-Z) this is 26 bytes..1 for each character. But we also need 1 more to terminate our string. The 27th spot will have a 0.
+  li $v0, 9
+  li $a0, 27
+  
+  
+  
+  
+  syscall

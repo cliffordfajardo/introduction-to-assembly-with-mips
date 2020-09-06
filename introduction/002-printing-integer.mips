@@ -1,0 +1,9 @@
+.data
+	myInteger: .word 24 # 4bytes(32bits). In MIPS the word is the most basic unit. instructions are 32bit too. ALSO an integer is of size 4btes/32bits...
+
+
+.text
+										# register $v0 primarily used for holding a service number for syscalls.
+	li $v0, 1	        # syscall code 1. Get ready to print a message
+	lw $a0, myInteger # instead of 'la' we use 'lw' since an integer is just a word.
+	syscall

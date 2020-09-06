@@ -1,0 +1,33 @@
+.data
+  # Each integer is 4 bytes. We're storing 3 integers
+	myArrayOfIntegers: .space 12
+	
+.text
+	# Move values from registers to RAM
+	addi $s0, $zero, 1
+	addi $s1, $zero, 2
+	addi $s2, $zero, 3
+	
+	# Index (AKA offset): $t0=0. Using this as our index.
+	addi $t0, $zero, 0
+	
+	
+	
+	#*************Adding values into our array*************
+	sw $s0, myArrayOfIntegers($t0)	# add 1
+	addi $t0, $t0, 4 								# update array index 
+	
+	sw $s1, myArrayOfIntegers($t0)	# add 2
+	addi $t0, $t0, 4 								# update array index
+	
+	sw $s2, myArrayOfIntegers($t0)  # add 3
+	
+	
+	# Retrieve 1st value of array from memory and save it to $t6
+	lw $t6, myArrayOfIntegers($zero)
+	
+	
+	# print first value of array
+	li $v0, 1
+	addi $a0, $t6, 0
+	syscall

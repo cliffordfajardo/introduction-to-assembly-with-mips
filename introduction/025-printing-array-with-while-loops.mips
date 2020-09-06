@@ -1,0 +1,49 @@
+.data
+  # Each integer is 4 bytes. We're storing 3 integers
+	myArrayOfIntegers: .space 12
+	newLine: 					 .asciiz "\n"
+
+.text
+	# Move values from registers to RAM
+	addi $s0, $zero, 1
+	addi $s1, $zero, 2
+	addi $s2, $zero, 3
+	
+	# Index (AKA offset): $t0=0. Using this as our index.
+	addi $t0, $zero, 0
+	
+	
+	#*************Adding values into our array*************
+	sw $s0, myArrayOfIntegers($t0)	# add 1
+	addi $t0, $t0, 4 								# update array index 
+	
+	sw $s1, myArrayOfIntegers($t0)	# add 2
+	addi $t0, $t0, 4 								# update array index
+	
+	sw $s2, myArrayOfIntegers($t0) # add 3
+	
+	
+
+ 	# Clear $t0. I'll use it as counter for my while loop.
+ 	li $t0, 0
+ 	
+ 	whileLoop:
+ 		beq $t0, 12, exitProgram			 	# when our index is 12, that means we've reached the end of our array. Each element uses up 4 bytes of memory.
+ 		
+ 		lw $t6, myArrayOfIntegers($t0)	# Put item of array (which is in memory) into t6
+ 		
+ 		addi $t0, $t0, 4		# increment array index
+ 		
+ 		li $v0, 1						# Get ready to print current array number..
+ 		addi $a0, $t6, 0 		# or you can write the pseudo-instruction: move $a0, t6
+ 		syscall
+ 		
+ 		li $v0, 4						# print new line
+ 		la $a0, newLine
+ 		syscall
+ 		
+ 		j whileLoop
+ 
+ 	exitProgram: 
+ 		li $v0, 10
+ 		syscall

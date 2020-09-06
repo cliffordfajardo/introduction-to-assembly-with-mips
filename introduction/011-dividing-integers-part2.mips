@@ -1,0 +1,27 @@
+.data
+
+.text
+	addi $t0, $zero, 30 # store 30 in t0
+	addi $t1, $zero, 5  # store 5 in t1
+	
+	# FROM LAST FILE...we're accessing registers....then doing: 	
+	# div $s0, $t0, $t1
+	
+	# div also has a way to load immediate the last argument:
+	# div $s0, $t0, 5 # value stored in $s0
+	
+	
+	# BUT there's even another way to do this more efficiently with only two values and then saving the result to a default register (lo register)
+	# if we have a remainder, that value goes in 'hi'
+	div $t0, $t1
+	
+	mflo  $s0 # move the quotient to s0
+	mfhi $s1 # move the remainder (stored in hi) to get the remainder
+	
+	# 30/8 --> hi=3, lo=6
+	
+	
+	# print to screen
+	li $v0, 1
+	add $a0, $zero, $s0
+	syscall

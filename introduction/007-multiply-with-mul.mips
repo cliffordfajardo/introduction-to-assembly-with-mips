@@ -1,0 +1,19 @@
+.data
+# no data in RAM
+
+.text
+### There are 3 ways to do multiplcation in mips: mul, mult, sll
+ 
+# So..we don't have values in RAM. How can we get values into our registers?
+# Use "add immediate!" AKA "addi" (the i in in add represents any constant..
+	
+	addi $s0, $zero, 2 	# this reads a " add 10 to 0 and store it in s0 register.
+	addi $s1, $zero, 2  
+	
+	# FYI: the biggest numbers we can multiply are two 16-bit numbers since we registers in MIP are 32bits.
+	#      in the next lesson we'll see how to multiply big numbers.
+	mul $t0, $s0, $s1  	# t0 = s0 * s1
+	
+	li  $v0, 1,
+	add $a0, $zero, $t0    # Doing a quick operation to display the product so we can print it out. $a0 = 0 + 4
+	syscall 

@@ -1,0 +1,26 @@
+.data
+	prompt:  .asciiz "Enter your age: "
+	message: .asciiz "Your age is: "
+
+.text
+	# Print the prompt user to enter age
+	li $v0, 4
+	la $a0, prompt
+	syscall
+	
+	# Get the user's age
+	li $v0, 5 # call code that we want to get an integer from keyboard
+	syscall   # system will pause and wait for keyboard to read integer. (user input is saved $v0)
+	
+	# Store the user's input in t0 temporarily. 
+	move $t0, $v0
+	 
+	# Print user's age.
+	li $v0, 4
+	la $a0, message
+	syscall
+	 
+	# Print users show age
+	li $v0, 1
+	move $a0, $t0
+	syscall

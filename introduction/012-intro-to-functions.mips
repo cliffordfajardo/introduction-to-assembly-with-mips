@@ -1,0 +1,41 @@
+.data
+	message: .asciiz "Hi everybody. \n My name is Clifford.\n"
+
+
+.text
+# We're going to learn about functions AKA procedures!
+# FYIL In java people call these methods, in C function's but the norm in MIPS is procedure.
+
+#When your building program's in MIPS it's good practice/common to have a 'main' procedure.
+
+	# 'main' is special procedure in mips.
+	main:
+		# jump & link: 
+		# - saves the address of the next instruction in $ra(return address) so after our function is done we can continue executing from where we called it.
+		jal displayMessage
+		
+		# function finsihed running above but we're continuing....
+		
+		addi $s0, $zero, 5 #just storing a value..
+		
+		# print #5 to screen
+		li $v0, 1
+		add $a0, $zero, $s0
+		syscall
+		
+		# Tell main this is the end of program (10=terminate program).....If we don't this line in 'main' our computer will get trapped in an infinite loop/error.
+		li $v0, 10
+	
+	
+	
+	
+	
+	displayMessage:
+		li $v0, 4
+		la $a0, message
+		syscall
+		jr $ra # go back to $ra which holds the next instruction after our procedure.  jr simply jumps but there's no way back, unlike jla does that.
+
+
+# syscall notes
+# when we use a syscall, we're essentially handing our program off to the operating system. For example, our code doesn't know how to print messages, recieve user input etc...so we tell the operating system to handle that.

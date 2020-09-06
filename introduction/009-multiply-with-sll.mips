@@ -1,0 +1,17 @@
+.data
+# shift left logical (sll) allows to do multiplication in a very efficient manner by shifting bits.
+
+
+.text
+	addi $s0, $zero, 4
+	
+	# Multiplication with sll
+	# Goal: do 4x4 to get 16.
+	# 
+	# Essentially this reads as t0 = 4 * (2^2..which is 4) 2 is always the base. So if 3 was our last argument we would have 4*8 (since 2^3=8)
+	sll $t0, $s0, 2
+	
+	# print value..
+	li $v0, 1
+	add $a0, $zero, $t0
+	syscall 
